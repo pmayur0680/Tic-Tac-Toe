@@ -23,7 +23,7 @@ function makeMove(gameSquare, row, col) {
     boardState[row][col] = currentPlayer;
     numMovesDone++;
     // check for condition if user win, else if game tied else move turn to next player
-    if(didPlayerWin()) {
+    if(didPlayerWin(row, col)) {
         gameHeading.textContent = `Player ${currentPlayer} WON`;     
         endGame();
     } else if(numMovesDone >= 9) {
@@ -37,9 +37,26 @@ function makeMove(gameSquare, row, col) {
     } 
 }    
 
-function didPlayerWin() {
-    // temp return false, will implement soon
-    return false;
+function didPlayerWin(row, col) {
+  // check for all win possibilities for currentPlayer, user last clicked
+  // 1. check for WIN in current row clicked, horizontal WIN
+  const wonHorizontal = boardState[row][0] === currentPlayer && 
+                        boardState[row][1] === currentPlayer && 
+                        boardState[row][2] === currentPlayer;
+  // 2. check for WIN in current col clicked, verticle WIN
+  const wonVerticle = boardState[0][col] === currentPlayer && 
+                      boardState[1][col] === currentPlayer && 
+                      boardState[2][col] === currentPlayer;
+  // 3. check for Diagonal WIN 
+  let wonDiagonal = false;
+  if(boardState[1][1] === currentPlayer) {
+    // only go for check if middle is currentPlayer
+    if(boardState[0][0] === currentPlayer && boardState[2][2] === currentPlayer)
+    wonDiagonal = true;
+    else if(boardState[0][2] === currentPlayer && boardState[2][0] === currentPlayer)
+    wonDiagonal = true;    
+  }  
+  return wonHorizontal || wonVerticle || wonDiagonal;
 }
 
 function endGame() {
