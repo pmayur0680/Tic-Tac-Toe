@@ -20,6 +20,7 @@ gameSquares.forEach( (gameSquare, i) => {
 function makeMove(gameSquare, row, col) {
     // based on player 1/2, set X/O
     gameSquare.textContent = currentPlayer === 1 ? 'X': 'O';
+    gameSquare.disabled = true;
     boardState[row][col] = currentPlayer;
     numMovesDone++;
     // check for condition if user win, else if game tied else move turn to next player
